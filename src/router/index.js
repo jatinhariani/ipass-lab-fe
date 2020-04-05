@@ -11,6 +11,9 @@ import Static from '../views/static';
 import GetOTP from '../views/static/GetOTP.vue';
 // import LabDetails from '../views/static/LabDetails.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
+import RedeemVoucher from '../views/RedeemVoucher.vue';
+import VoucherDetails from '../views/VoucherDetails.vue';
+import VoucherSuccess from '../views/VoucherSuccess.vue';
 
 Vue.use(VueRouter);
 
@@ -44,6 +47,21 @@ const routes = [
             {
                 path: 'lab-details',
                 component: LabDetails
+            },
+            {
+                path: '/voucher/redeem',
+                name: 'RedeemVoucher',
+                component: RedeemVoucher
+            },
+            {
+                path: '/voucher/:id',
+                name: 'VoucherDetails',
+                component: VoucherDetails
+            },
+            {
+                path: '/voucher/:id/success',
+                name: 'VoucherSuccess',
+                component: VoucherSuccess
             }
         ]
     },
@@ -84,10 +102,6 @@ const routes = [
         //         next();
         //     } else next('/login');
         // }
-    },
-    {
-        path: '*',
-        redirect: '/'
     }
 ];
 

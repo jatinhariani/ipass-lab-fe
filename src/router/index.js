@@ -45,6 +45,12 @@ const routes = [
         },
         children: [
             {
+                path: '/',
+                meta: {
+                    auth: true
+                }
+            },
+            {
                 path: 'lab-details',
                 component: LabDetails
             },

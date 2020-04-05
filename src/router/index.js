@@ -47,6 +47,21 @@ const routes = [
             {
                 path: 'lab-details',
                 component: LabDetails
+            },
+            {
+                path: '/voucher/redeem',
+                name: 'RedeemVoucher',
+                component: RedeemVoucher
+            },
+            {
+                path: '/voucher/:id',
+                name: 'VoucherDetails',
+                component: VoucherDetails
+            },
+            {
+                path: '/voucher/:id/success',
+                name: 'VoucherSuccess',
+                component: VoucherSuccess
             }
         ]
     },
@@ -87,21 +102,6 @@ const routes = [
         //         next();
         //     } else next('/login');
         // }
-    },
-    {
-        path: '/voucher/redeem',
-        name: 'RedeemVoucher',
-        component: RedeemVoucher
-    },
-    {
-        path: '/voucher/:id',
-        name: 'VoucherDetails',
-        component: VoucherDetails
-    },
-    {
-        path: '/voucher/:id/success',
-        name: 'VoucherSuccess',
-        component: VoucherSuccess
     }
 ];
 

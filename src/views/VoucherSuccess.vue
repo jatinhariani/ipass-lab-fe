@@ -1,6 +1,5 @@
 <template>
     <div>
-        <app-header />
         <section class="page-wrap voucher-section">
             <div class="container">
                 <lab-logo />
@@ -23,11 +22,10 @@
 </template>
 
 <script>
-import AppHeader from '../components/AppHeader.vue';
 import LabLogo from '../components/LabLogo.vue';
 
 export default {
-    components: { AppHeader, LabLogo }
+    components: { LabLogo }
 };
 </script>
 

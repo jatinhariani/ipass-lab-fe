@@ -7,7 +7,7 @@
                     <div
                         class="column is-half is-offset-one-quarter is-full-mobile"
                     >
-                        <div class="voucher-details">
+                        <div class="voucher-details" v-if="isValid">
                             <h2 class="text-center title">
                                 This voucher is assigned to:
                             </h2>
@@ -56,22 +56,29 @@
                             </div>
                             <div class="columns">
                                 <div class="column is-half">
-                                    <b-button type="is-primary"
-                                        >Redeem</b-button
+                                    <b-button
+                                        type="is-primary"
+                                        @click.prevent="redeemVoucher"
                                     >
+                                        Redeem
+                                    </b-button>
                                 </div>
                                 <div class="column is-half has-text-right">
-                                    <b-button>Cancel</b-button>
+                                    <b-button @click.prevent="$router.back()">
+                                        Cancel
+                                    </b-button>
                                 </div>
                             </div>
                         </div>
                         <div
                             class="voucher-details invalid-voucher has-text-centered"
-                            v-if="false"
+                            v-else
                         >
                             <h2>Oops!</h2>
                             <p>Looks like this is an invalid / used voucher</p>
-                            <a class="button">Go back</a>
+                            <a class="button" @click.prevent="$router.back()">
+                                Go back
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -84,7 +91,19 @@
 import LabLogo from '../components/LabLogo.vue';
 
 export default {
-    components: { LabLogo }
+    components: { LabLogo },
+    computed: {
+        isValid() {
+            return this.$route.params.id === 'ASDFGH';
+        }
+    },
+    methods: {
+        redeemVoucher() {
+            return this.$router.push(
+                `/voucher/${this.$route.params.id}/success`
+            );
+        }
+    }
 };
 </script>
 

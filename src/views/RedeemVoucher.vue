@@ -7,10 +7,11 @@
             <form class="log-in-form">
                 <h2 class="text-center">Enter the Voucher id to redeem it</h2>
                 <b-field label="Voucher id" :label-position="labelPosition">
-                    <b-input></b-input>
+                    <b-input v-model="voucherCode"></b-input>
                 </b-field>
-
-                <b-button type="is-primary">Verify</b-button>
+                <b-button type="is-primary" @click.prevent="fetchVoucher">
+                    Verify
+                </b-button>
             </form>
         </div>
     </section>
@@ -18,7 +19,17 @@
 
 <script>
 export default {
-    mounted() {}
+    data() {
+        return {
+            voucherCode: ''
+        };
+    },
+    mounted() {},
+    methods: {
+        fetchVoucher() {
+            return this.$router.push(`/voucher/${this.voucherCode}`);
+        }
+    }
 };
 </script>
 

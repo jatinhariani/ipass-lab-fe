@@ -17,29 +17,25 @@
                     :disabled="isLoading"
                 >
                     Get OTP
-                    <b-loading
-                        :is-full-page="false"
-                        :active.sync="isLoading"
-                    ></b-loading>
+                    <b-loading :is-full-page="false" :active.sync="isLoading" />
                 </b-button>
             </form>
-            <form
-                ref="loginForm"
-                class="log-in-form"
-                v-else
-                @submit.prevent="attemptLogin"
-            >
+            <form ref="loginForm" class="log-in-form" v-else>
                 <h2 class="text-center">Login with your OTP</h2>
                 <b-field label="Phone Number">
                     <b-input></b-input>
                 </b-field>
                 <b-field label="OTP">
-                    <b-input></b-input>
+                    <b-input v-model="form.otp"></b-input>
                 </b-field>
-                <b-button type="is-primary" :disabled="isLoading">
+                <b-button
+                    type="is-primary"
+                    @click.prevent="attemptLogin"
+                    :disabled="isLoading"
+                >
                     Login
                 </b-button>
-                <p class="text-center" @click="$refs.loginForm.submit()">
+                <p class="text-center" @click.prevent="resendOtp">
                     <a href="#">Resend OTP</a>
                 </p>
             </form>
@@ -48,7 +44,7 @@
 </template>
 
 <script>
-import authService from '../service/auth';
+// import authService from '../service/auth';
 
 export default {
     name: 'Login',
@@ -66,27 +62,48 @@ export default {
     methods: {
         requestOtp() {
             this.isLoading = true;
-            return authService
-                .requestOtp(this.phoneNumber)
-                .then(() => {
-                    this.isLoading = false;
-                    this.otpForm = false;
-                })
-                .catch(() => {
-                    this.isLoading = false;
-                    this.$buefy.toast.open({
-                        duration: 5000,
-                        message: `Something's not right. Please try again later.`,
-                        type: 'is-danger'
-                    });
-                });
+            this.$buefy.toast.open({
+                duration: 5000,
+                message: `Please check your phone for an OTP.`,
+                type: 'is-success'
+            });
+            this.isLoading = false;
+            this.otpForm = false;
+            return;
+            // return authService
+            //     .requestOtp(this.phoneNumber)
+            //     .then(() => {
+            //         this.isLoading = false;
+            //         this.otpForm = false;
+            //     })
+            //     .catch(() => {
+            //         this.isLoading = false;
+            //         this.$buefy.toast.open({
+            //             duration: 5000,
+            //             message: `Something's not right. Please try again later.`,
+            //             type: 'is-danger'
+            //         });
+            //     });
         },
         attemptLogin() {
-            /* eslint-disable no-console */
-            console.log('attempt login');
+            if (this.form.otp === '123456') {
+                return this.$router.push('/voucher/redeem');
+            } else {
+                this.$buefy.toast.open({
+                    duration: 5000,
+                    message: `Incorrect OTP. Please try again.`,
+                    type: 'is-danger'
+                });
+            }
+        },
+        resendOtp() {
+            this.$buefy.toast.open({
+                duration: 5000,
+                message: `Please check your phone for an OTP.`,
+                type: 'is-success'
+            });
         }
     }
 };
 </script>
-
 <style lang="scss" scoped></style>

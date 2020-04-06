@@ -51,7 +51,7 @@ const routes = [
                 }
             },
             {
-                path: 'lab-details',
+                path: '/lab-details',
                 component: LabDetails
             },
             {

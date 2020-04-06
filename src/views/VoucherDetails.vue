@@ -17,7 +17,7 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Name:</span
                                     >
-                                    <span>User Name</span>
+                                    <span>Aaryaman Vir</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -26,14 +26,14 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Gender:</span
                                     >
-                                    <span>M / F</span>
+                                    <span>M</span>
                                 </div>
                                 <div class="column is-half">
                                     <span
                                         class="has-text-weight-bold label is-inline-block"
                                         >Age:</span
                                     >
-                                    <span>25</span>
+                                    <span>27</span>
                                 </div>
                             </div>
                             <div class="columns">

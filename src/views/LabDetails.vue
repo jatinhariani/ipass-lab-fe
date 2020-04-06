@@ -23,19 +23,23 @@
                 <b-field grouped>
                     <b-select placeholder="Opening Time">
                         <option>6 AM</option>
-                        <option>6 AM</option>
-                        <option>6 AM</option>
+                        <option>7 AM</option>
+                        <option>8 AM</option>
+                        <option>9 AM</option>
+                        <option>10 AM</option>
                     </b-select>
                     <span class="label-to">to</span>
                     <b-select placeholder="Closing Time">
                         <option>5 PM</option>
-                        <option>5 PM</option>
-                        <option>5 PM</option>
+                        <option>6 PM</option>
+                        <option>7 PM</option>
+                        <option>8 PM</option>
+                        <option>9 PM</option>
                     </b-select>
                 </b-field>
             </b-field>
 
-            <b-field label="">
+            <b-field label>
                 <b-field grouped>
                     <b-select placeholder="Start day">
                         <option>Monday</option>
@@ -71,12 +75,32 @@
                 <b-input></b-input>
             </b-field>
 
-            <b-button type="is-primary" expanded="true">Submit</b-button>
+            <b-button type="is-primary" expanded="true" @click="submit"
+                >Submit</b-button
+            >
         </div>
     </section>
 </template>
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            isLoading: false
+        };
+    },
+    methods: {
+        submit() {
+            this.isLoading = true;
+            this.$buefy.toast.open({
+                duration: 5000,
+                message: `Lab details updated successfully!`,
+                type: 'is-success'
+            });
+            this.isLoading = false;
+            return this.$router.push('/voucher/redeem');
+        }
+    }
+};
 </script>
 <style lang="scss" scoped>
 .label-to {

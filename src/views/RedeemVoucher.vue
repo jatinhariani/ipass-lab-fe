@@ -5,8 +5,8 @@
                 <img src="../assets/path-logo.svg" alt />
             </div>
             <form class="log-in-form">
-                <h2 class="text-center">Enter the Voucher id to redeem it</h2>
-                <b-field label="Voucher id" :label-position="labelPosition">
+                <h2 class="text-center">Enter the voucher code to redeem it</h2>
+                <b-field label="Voucher Code" :label-position="labelPosition">
                     <b-input v-model="voucherCode"></b-input>
                 </b-field>
                 <b-button type="is-primary" @click.prevent="fetchVoucher">

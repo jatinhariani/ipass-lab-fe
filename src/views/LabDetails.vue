@@ -3,19 +3,23 @@
         <div class="form-wrap">
             <h2>Enter the Lab Details</h2>
 
-            <b-field label="Name" :label-position="labelPosition">
+            <b-field label="Lab Name" :label-position="labelPosition">
                 <b-input></b-input>
             </b-field>
 
-            <b-field label="Google Map Link" :label-position="labelPosition">
+            <b-field label="Lab Location" :label-position="labelPosition">
                 <b-input></b-input>
             </b-field>
 
-            <b-field label="Lab Id" :label-position="labelPosition">
+            <b-field label="Geolocation" :label-position="labelPosition">
                 <b-input></b-input>
             </b-field>
 
-            <b-field label="Lab Opetating Hours">
+            <b-field label="ICMR ID" :label-position="labelPosition">
+                <b-input></b-input>
+            </b-field>
+
+            <b-field label="Lab Operating Hours">
                 <b-field grouped>
                     <b-select placeholder="Opening Time">
                         <option>6 AM</option>
@@ -57,7 +61,7 @@
 
             <hr />
 
-            <h2>Your details</h2>
+            <h2>Your Details</h2>
 
             <b-field label="Name" :label-position="labelPosition">
                 <b-input></b-input>

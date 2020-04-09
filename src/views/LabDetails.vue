@@ -63,6 +63,71 @@
                 </b-field>
             </b-field>
 
+            <table class="test-supported-table">
+                <tr>
+                    <th>Tests supported by the lab</th>
+                    <th>Checkbox</th>
+                    <th>Result turnaround time</th>
+                </tr>
+
+                <tr>
+                    <td><p>PCR</p></td>
+                    <td>
+                        <div class="field">
+                            <b-checkbox>Yes</b-checkbox>
+                        </div>
+                    </td>
+                    <td>
+                        <b-select placeholder="Turnaround time">
+                            <option>----</option>
+                            <option>1 day</option>
+                            <option>2 days</option>
+                            <option>3 days</option>
+                            <option>4 days</option>
+                            <option>5 days</option>
+                        </b-select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><p>Igg</p></td>
+                    <td>
+                        <div class="field">
+                            <b-checkbox>Yes</b-checkbox>
+                        </div>
+                    </td>
+                    <td>
+                        <b-select placeholder="Turnaround time">
+                            <option>----</option>
+                            <option>1 day</option>
+                            <option>2 days</option>
+                            <option>3 days</option>
+                            <option>4 days</option>
+                            <option>5 days</option>
+                        </b-select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><p>Igm</p></td>
+                    <td>
+                        <div class="field">
+                            <b-checkbox>Yes</b-checkbox>
+                        </div>
+                    </td>
+                    <td>
+                        <b-select placeholder="Turnaround time">
+                            <option>----</option>
+                            <option>1 day</option>
+                            <option>2 days</option>
+                            <option>3 days</option>
+                            <option>4 days</option>
+                            <option>5 days</option>
+                        </b-select>
+                    </td>
+                </tr>
+            </table>
+
             <hr />
 
             <h2>Your Details</h2>

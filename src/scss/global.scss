@@ -130,3 +130,22 @@ label,
         margin-bottom: 2rem;
     }
 }
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #d2d1d1;
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {color: #363636; font-weight: 600; font-size: 14px;}
+
+.test-supported-table {margin-top: 35px; margin-bottom: 40px;
+  select {height: 36px;}
+  .checkbox {top: 9px;}
+  p {margin-top: 8px; margin-bottom: 0px;}
+}

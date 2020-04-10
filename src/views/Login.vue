@@ -9,7 +9,7 @@
                     Enter your Phone Number to get an OTP
                 </h2>
                 <b-field label="Phone Number">
-                    <b-input></b-input>
+                    <b-input v-model="form.phoneNumber"></b-input>
                 </b-field>
                 <b-button
                     type="is-primary"
@@ -23,7 +23,7 @@
             <form ref="loginForm" class="log-in-form" v-else>
                 <h2 class="text-center">Login with your OTP</h2>
                 <b-field label="Phone Number">
-                    <b-input></b-input>
+                    <b-input v-model="form.phoneNumber"></b-input>
                 </b-field>
                 <b-field label="OTP">
                     <b-input v-model="form.otp"></b-input>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-// import authService from '../service/auth';
+import authService from '../service/auth';
 
 export default {
     name: 'Login',
@@ -62,39 +62,38 @@ export default {
     methods: {
         requestOtp() {
             this.isLoading = true;
-            this.$buefy.toast.open({
-                duration: 5000,
-                message: `Please check your phone for an OTP.`,
-                type: 'is-success'
-            });
-            this.isLoading = false;
-            this.otpForm = false;
-            return;
-            // return authService
-            //     .requestOtp(this.phoneNumber)
-            //     .then(() => {
-            //         this.isLoading = false;
-            //         this.otpForm = false;
-            //     })
-            //     .catch(() => {
-            //         this.isLoading = false;
-            //         this.$buefy.toast.open({
-            //             duration: 5000,
-            //             message: `Something's not right. Please try again later.`,
-            //             type: 'is-danger'
-            //         });
-            //     });
+            return authService
+                .requestOtp(this.form.phoneNumber)
+                .then(res => {
+                    console.log(res);
+                    this.isLoading = false;
+                    this.otpForm = false;
+                })
+                .catch(() => {
+                    this.isLoading = false;
+                    this.$buefy.toast.open({
+                        duration: 5000,
+                        message: `Something's not right. Please try again later.`,
+                        type: 'is-danger'
+                    });
+                });
         },
         attemptLogin() {
-            if (this.form.otp === '123456') {
-                return this.$router.push('/voucher/redeem');
-            } else {
-                this.$buefy.toast.open({
-                    duration: 5000,
-                    message: `Incorrect OTP. Please try again.`,
-                    type: 'is-danger'
-                });
-            }
+            return this.$auth.login({
+                data: {
+                    otp: this.form.otp,
+                    identifier: this.form.phoneNumber
+                }
+            });
+            // if (this.form.otp === '123456') {
+            //     return this.$router.push('/voucher/redeem');
+            // } else {
+            //     this.$buefy.toast.open({
+            //         duration: 5000,
+            //         message: `Incorrect OTP. Please try again.`,
+            //         type: 'is-danger'
+            //     });
+            // }
         },
         resendOtp() {
             this.$buefy.toast.open({

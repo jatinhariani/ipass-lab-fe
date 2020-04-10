@@ -17,7 +17,7 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Name:</span
                                     >
-                                    <span>User Name</span>
+                                    <span>{{ voucher.user_name }}</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -42,7 +42,7 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Document:</span
                                     >
-                                    <span>Aadhaar Card</span>
+                                    <span>{{ voucher.user_govt_idtype }}</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -51,7 +51,9 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Last 4 digits:</span
                                     >
-                                    <span>1234</span>
+                                    <span>{{
+                                        voucher.user_government_id.slice(-4)
+                                    }}</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -89,19 +91,46 @@
 
 <script>
 import LabLogo from '../components/LabLogo.vue';
+import voucherService from '../service/voucher';
+
+// const voucherService = voucher.
 
 export default {
+    data() {
+        return {
+            fetching: true,
+            isValid: false
+        };
+    },
     components: { LabLogo },
-    computed: {
-        isValid() {
-            return this.$route.params.id === 'ASDFGH';
-        }
+    mounted() {
+        return this.fetchVoucher();
     },
     methods: {
+        fetchVoucher() {
+            return voucherService(this)
+                .fetchVoucher(this.$route.params.id)
+                .then(res => {
+                    this.isValid = true;
+                    this.voucher = res.data;
+                    console.log(res.data);
+                    this.fetching = false;
+                })
+                .catch(() => {
+                    this.isValid = false;
+                    this.fetchError = true;
+                });
+        },
         redeemVoucher() {
-            return this.$router.push(
-                `/voucher/${this.$route.params.id}/success`
-            );
+            return voucherService(this)
+                .redeemVoucher(this.voucherCode)
+                .then(res => {
+                    console.log(res.data);
+                    this.fetching = false;
+                })
+                .catch(() => {
+                    this.fetchError = true;
+                });
         }
     }
 };

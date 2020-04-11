@@ -32,8 +32,10 @@
                     type="is-primary"
                     @click.prevent="attemptLogin"
                     :disabled="isLoading"
-                    >Login</b-button
                 >
+                    Login
+                    <b-loading :is-full-page="false" :active.sync="isLoading" />
+                </b-button>
                 <p class="text-center" @click.prevent="resendOtp">
                     <a href="#">Resend OTP</a>
                 </p>
@@ -66,6 +68,11 @@ export default {
                 .then(() => {
                     this.isLoading = false;
                     this.otpForm = false;
+                    return this.$buefy.toast.open({
+                        duration: 5000,
+                        message: `Please check your phone for an OTP.`,
+                        type: 'is-success'
+                    });
                 })
                 .catch(err => {
                     this.isLoading = false;
@@ -85,6 +92,7 @@ export default {
                 });
         },
         attemptLogin() {
+            this.isLoading = true;
             return this.$auth
                 .login({
                     data: {

@@ -64,36 +64,51 @@ export default {
             this.isLoading = true;
             return authService
                 .requestOtp(this.form.phoneNumber)
-                .then(res => {
-                    console.log(res);
+                .then(() => {
                     this.isLoading = false;
                     this.otpForm = false;
                 })
-                .catch(() => {
+                .catch(err => {
                     this.isLoading = false;
-                    this.$buefy.toast.open({
-                        duration: 5000,
-                        message: `Something's not right. Please try again later.`,
-                        type: 'is-danger'
-                    });
+                    if (err.response && err.response.status === 400) {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: err.response.data.message,
+                            type: 'is-danger'
+                        });
+                    } else {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: `Something's not right. Please try again later.`,
+                            type: 'is-danger'
+                        });
+                    }
                 });
         },
         attemptLogin() {
-            return this.$auth.login({
-                data: {
-                    otp: this.form.otp,
-                    identifier: this.form.phoneNumber
-                }
-            });
-            // if (this.form.otp === '123456') {
-            //     return this.$router.push('/voucher/redeem');
-            // } else {
-            //     this.$buefy.toast.open({
-            //         duration: 5000,
-            //         message: `Incorrect OTP. Please try again.`,
-            //         type: 'is-danger'
-            //     });
-            // }
+            return this.$auth
+                .login({
+                    data: {
+                        otp: this.form.otp,
+                        identifier: this.form.phoneNumber
+                    }
+                })
+                .catch(err => {
+                    this.isLoading = false;
+                    if (err.response && err.response.status === 400) {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: err.response.data.message,
+                            type: 'is-danger'
+                        });
+                    } else {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: `Something's not right. Please try again later.`,
+                            type: 'is-danger'
+                        });
+                    }
+                });
         },
         resendOtp() {
             this.$buefy.toast.open({

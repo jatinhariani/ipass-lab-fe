@@ -6,7 +6,7 @@
             </div>
             <form class="log-in-form">
                 <h2 class="text-center">Enter the Voucher id to redeem it</h2>
-                <b-field label="Voucher id" :label-position="labelPosition">
+                <b-field label="Voucher id">
                     <b-input v-model="voucherCode"></b-input>
                 </b-field>
                 <b-button type="is-primary" @click.prevent="fetchVoucher">

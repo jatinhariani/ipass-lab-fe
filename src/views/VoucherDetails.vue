@@ -88,12 +88,9 @@
         </section>
     </div>
 </template>
-
 <script>
 import LabLogo from '../components/LabLogo.vue';
 import voucherService from '../service/voucher';
-
-// const voucherService = voucher.
 
 export default {
     data() {
@@ -113,7 +110,6 @@ export default {
                 .then(res => {
                     this.isValid = true;
                     this.voucher = res.data;
-                    console.log(res.data);
                     this.fetching = false;
                 })
                 .catch(() => {
@@ -123,10 +119,12 @@ export default {
         },
         redeemVoucher() {
             return voucherService(this)
-                .redeemVoucher(this.voucherCode)
-                .then(res => {
-                    console.log(res.data);
+                .redeemVoucher(this.$route.params.id)
+                .then(() => {
                     this.fetching = false;
+                    return this.$router.push(
+                        `/voucher/${this.$route.params.id}/success`
+                    );
                 })
                 .catch(() => {
                     this.fetchError = true;
@@ -135,7 +133,6 @@ export default {
     }
 };
 </script>
-
 <style lang="scss" scoped>
 .label {
     margin-right: 1rem;

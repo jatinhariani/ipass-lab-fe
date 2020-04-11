@@ -1,7 +1,3 @@
-import app from '../main';
-
-console.log('app', app);
-
 export default app => {
     return {
         fetchVoucher(voucherId) {

@@ -22,7 +22,7 @@ export default () => {
         loginData: {
             url: '/verify_otp',
             method: 'POST',
-            redirect: '/voucher/redeem',
+            redirect: '/',
             fetchUser: false
         },
         logoutData: { redirect: '/login' },

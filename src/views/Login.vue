@@ -118,11 +118,12 @@ export default {
                 });
         },
         resendOtp() {
-            this.$buefy.toast.open({
-                duration: 5000,
-                message: `Please check your phone for an OTP.`,
-                type: 'is-success'
-            });
+            this.requestOtp();
+            // this.$buefy.toast.open({
+            //     duration: 5000,
+            //     message: `Please check your phone for an OTP.`,
+            //     type: 'is-success'
+            // });
         }
     }
 };

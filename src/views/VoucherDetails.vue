@@ -61,8 +61,13 @@
                                     <b-button
                                         type="is-primary"
                                         @click.prevent="redeemVoucher"
+                                        :disabled="redeeming"
                                     >
                                         Redeem
+                                        <b-loading
+                                            :is-full-page="false"
+                                            :active.sync="redeeming"
+                                        />
                                     </b-button>
                                 </div>
                                 <div class="column is-half has-text-right">
@@ -96,11 +101,15 @@ export default {
     data() {
         return {
             fetching: true,
-            isValid: false
+            isValid: false,
+            fetchError: false,
+            redeeming: false,
+            loader: null
         };
     },
     components: { LabLogo },
     mounted() {
+        this.loader = this.$buefy.loading.open();
         return this.fetchVoucher();
     },
     methods: {
@@ -108,11 +117,17 @@ export default {
             return voucherService(this)
                 .fetchVoucher(this.$route.params.id)
                 .then(res => {
-                    this.isValid = true;
-                    this.voucher = res.data;
                     this.fetching = false;
+                    this.loader.close();
+                    if (res.data.status !== 'PROCESSED') {
+                        this.fetchError = true;
+                    } else {
+                        this.isValid = true;
+                        this.voucher = res.data;
+                    }
                 })
                 .catch(() => {
+                    this.loader.close();
                     this.fetching = false;
                     this.fetchError = true;
                 });

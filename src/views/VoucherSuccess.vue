@@ -12,9 +12,11 @@
                         >
                             <h2 class="has-text-primary">Success!</h2>
                             <p class="data">Voucher redeemed successfully!</p>
-                            <a class="button" @click.prevent="$router.back()">
-                                Go back
-                            </a>
+                            <a
+                                class="button"
+                                @click.prevent="$router.push('/voucher/redeem')"
+                                >Go back</a
+                            >
                         </div>
                     </div>
                 </div>

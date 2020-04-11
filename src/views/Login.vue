@@ -6,7 +6,7 @@
             </div>
             <form ref="otpForm" class="log-in-form" v-if="otpForm">
                 <h2 class="text-center">
-                    Enter your Phone Number to get an OTP
+                    Enter your phone number to get an OTP
                 </h2>
                 <b-field label="Phone Number">
                     <b-input v-model="form.phoneNumber"></b-input>
@@ -32,9 +32,8 @@
                     type="is-primary"
                     @click.prevent="attemptLogin"
                     :disabled="isLoading"
+                    >Login</b-button
                 >
-                    Login
-                </b-button>
                 <p class="text-center" @click.prevent="resendOtp">
                     <a href="#">Resend OTP</a>
                 </p>

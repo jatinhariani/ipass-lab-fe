@@ -74,7 +74,7 @@
                         </div>
                         <div
                             class="voucher-details invalid-voucher has-text-centered"
-                            v-else
+                            v-if="!fetching && fetchError"
                         >
                             <h2>Oops!</h2>
                             <p>Looks like this is an invalid / used voucher</p>
@@ -113,20 +113,23 @@ export default {
                     this.fetching = false;
                 })
                 .catch(() => {
-                    this.isValid = false;
+                    this.fetching = false;
                     this.fetchError = true;
                 });
         },
         redeemVoucher() {
+            this.redeeming = true;
             return voucherService(this)
                 .redeemVoucher(this.$route.params.id)
                 .then(() => {
+                    this.redeeming = false;
                     this.fetching = false;
                     return this.$router.push(
                         `/voucher/${this.$route.params.id}/success`
                     );
                 })
                 .catch(() => {
+                    this.redeeming = false;
                     this.fetchError = true;
                 });
         }

@@ -5,8 +5,8 @@ import { isProd, isGithub } from '../utils/helpers';
 import qs from 'qs';
 
 const BASE_URL = (() => {
-    const DEFAULT_API = 'http://13.235.128.146:8080/v1/';
-    const EPASS_API = 'http://13.235.128.146:8080/v1/'
+    const DEFAULT_API = 'https://immunopass.covid19pass.in/v1/';
+    const EPASS_API = 'https://immunopass.covid19pass.in/v1/'
     //`${window.location.protocol}//${window.location.hostname}/ecurfew`;
 
     if (!isProd || isGithub) {

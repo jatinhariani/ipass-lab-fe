@@ -17,7 +17,7 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Name:</span
                                     >
-                                    <span>Aaryaman Vir</span>
+                                    <span>{{ voucher.user_name }}</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -42,7 +42,7 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Document:</span
                                     >
-                                    <span>Aadhaar Card</span>
+                                    <span>{{ voucher.user_govt_idtype }}</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -51,7 +51,9 @@
                                         class="has-text-weight-bold label is-inline-block"
                                         >Last 4 digits:</span
                                     >
-                                    <span>1234</span>
+                                    <span>{{
+                                        voucher.user_government_id.slice(-4)
+                                    }}</span>
                                 </div>
                             </div>
                             <div class="columns">
@@ -59,8 +61,13 @@
                                     <b-button
                                         type="is-primary"
                                         @click.prevent="redeemVoucher"
+                                        :disabled="redeeming"
                                     >
                                         Redeem
+                                        <b-loading
+                                            :is-full-page="false"
+                                            :active.sync="redeeming"
+                                        />
                                     </b-button>
                                 </div>
                                 <div class="column is-half has-text-right">
@@ -72,7 +79,7 @@
                         </div>
                         <div
                             class="voucher-details invalid-voucher has-text-centered"
-                            v-else
+                            v-if="!fetching && fetchError"
                         >
                             <h2>Oops!</h2>
                             <p>Looks like this is an invalid / used voucher</p>
@@ -86,27 +93,64 @@
         </section>
     </div>
 </template>
-
 <script>
 import LabLogo from '../components/LabLogo.vue';
+import voucherService from '../service/voucher';
 
 export default {
+    data() {
+        return {
+            fetching: true,
+            isValid: false,
+            fetchError: false,
+            redeeming: false,
+            loader: null
+        };
+    },
     components: { LabLogo },
-    computed: {
-        isValid() {
-            return this.$route.params.id === 'ASDFGH';
-        }
+    mounted() {
+        this.loader = this.$buefy.loading.open();
+        return this.fetchVoucher();
     },
     methods: {
+        fetchVoucher() {
+            return voucherService(this)
+                .fetchVoucher(this.$route.params.id)
+                .then(res => {
+                    this.fetching = false;
+                    this.loader.close();
+                    if (res.data.status !== 'PROCESSED') {
+                        this.fetchError = true;
+                    } else {
+                        this.isValid = true;
+                        this.voucher = res.data;
+                    }
+                })
+                .catch(() => {
+                    this.loader.close();
+                    this.fetching = false;
+                    this.fetchError = true;
+                });
+        },
         redeemVoucher() {
-            return this.$router.push(
-                `/voucher/${this.$route.params.id}/success`
-            );
+            this.redeeming = true;
+            return voucherService(this)
+                .redeemVoucher(this.$route.params.id)
+                .then(() => {
+                    this.redeeming = false;
+                    this.fetching = false;
+                    return this.$router.push(
+                        `/voucher/${this.$route.params.id}/success`
+                    );
+                })
+                .catch(() => {
+                    this.redeeming = false;
+                    this.fetchError = true;
+                });
         }
     }
 };
 </script>
-
 <style lang="scss" scoped>
 .label {
     margin-right: 1rem;

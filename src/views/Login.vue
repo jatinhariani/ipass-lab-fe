@@ -9,7 +9,7 @@
                     Enter your phone number to get an OTP
                 </h2>
                 <b-field label="Phone Number">
-                    <b-input></b-input>
+                    <b-input v-model="form.phoneNumber"></b-input>
                 </b-field>
                 <b-button
                     type="is-primary"
@@ -23,7 +23,7 @@
             <form ref="loginForm" class="log-in-form" v-else>
                 <h2 class="text-center">Login with your OTP</h2>
                 <b-field label="Phone Number">
-                    <b-input></b-input>
+                    <b-input v-model="form.phoneNumber"></b-input>
                 </b-field>
                 <b-field label="OTP">
                     <b-input v-model="form.otp"></b-input>
@@ -32,8 +32,10 @@
                     type="is-primary"
                     @click.prevent="attemptLogin"
                     :disabled="isLoading"
-                    >Login</b-button
                 >
+                    Login
+                    <b-loading :is-full-page="false" :active.sync="isLoading" />
+                </b-button>
                 <p class="text-center" @click.prevent="resendOtp">
                     <a href="#">Resend OTP</a>
                 </p>
@@ -43,7 +45,7 @@
 </template>
 
 <script>
-// import authService from '../service/auth';
+import authService from '../service/auth';
 
 export default {
     name: 'Login',
@@ -61,46 +63,67 @@ export default {
     methods: {
         requestOtp() {
             this.isLoading = true;
-            this.$buefy.toast.open({
-                duration: 5000,
-                message: `Please check your phone for an OTP.`,
-                type: 'is-success'
-            });
-            this.isLoading = false;
-            this.otpForm = false;
-            return;
-            // return authService
-            //     .requestOtp(this.phoneNumber)
-            //     .then(() => {
-            //         this.isLoading = false;
-            //         this.otpForm = false;
-            //     })
-            //     .catch(() => {
-            //         this.isLoading = false;
-            //         this.$buefy.toast.open({
-            //             duration: 5000,
-            //             message: `Something's not right. Please try again later.`,
-            //             type: 'is-danger'
-            //         });
-            //     });
+            return authService
+                .requestOtp(this.form.phoneNumber)
+                .then(() => {
+                    this.isLoading = false;
+                    this.otpForm = false;
+                    return this.$buefy.toast.open({
+                        duration: 5000,
+                        message: `Please check your phone for an OTP.`,
+                        type: 'is-success'
+                    });
+                })
+                .catch(err => {
+                    this.isLoading = false;
+                    if (err.response && err.response.status === 400) {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: err.response.data.message,
+                            type: 'is-danger'
+                        });
+                    } else {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: `Something's not right. Please try again later.`,
+                            type: 'is-danger'
+                        });
+                    }
+                });
         },
         attemptLogin() {
-            if (this.form.otp === '123456') {
-                return this.$router.push('/lab-details');
-            } else {
-                this.$buefy.toast.open({
-                    duration: 5000,
-                    message: `Incorrect OTP. Please try again.`,
-                    type: 'is-danger'
+            this.isLoading = true;
+            return this.$auth
+                .login({
+                    data: {
+                        otp: this.form.otp,
+                        identifier: this.form.phoneNumber
+                    }
+                })
+                .catch(err => {
+                    this.isLoading = false;
+                    if (err.response && err.response.status === 400) {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: err.response.data.message,
+                            type: 'is-danger'
+                        });
+                    } else {
+                        return this.$buefy.toast.open({
+                            duration: 5000,
+                            message: `Something's not right. Please try again later.`,
+                            type: 'is-danger'
+                        });
+                    }
                 });
-            }
         },
         resendOtp() {
-            this.$buefy.toast.open({
-                duration: 5000,
-                message: `Please check your phone for an OTP.`,
-                type: 'is-success'
-            });
+            this.requestOtp();
+            // this.$buefy.toast.open({
+            //     duration: 5000,
+            //     message: `Please check your phone for an OTP.`,
+            //     type: 'is-success'
+            // });
         }
     }
 };

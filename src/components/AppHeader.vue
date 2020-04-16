@@ -3,7 +3,10 @@
         <b-navbar type="is-primary">
             <template slot="brand">
                 <b-navbar-item :to="{ path: '/' }" tag="router-link">
-                    <img alt="iPass Logo" src="../assets/immunopass_white_logo.png" />
+                    <img
+                        alt="iPass Logo"
+                        src="../assets/immunopass_white_logo.png"
+                    />
                 </b-navbar-item>
             </template>
             <template slot="start">
@@ -43,15 +46,14 @@
         </b-navbar>
     </div>
 </template>
-
 <script>
-import { clearSession } from '../utils/session';
 export default {
     name: 'AppHeader',
     data() {
         let user = localStorage.getItem('user');
-        if (user) user = JSON.parse(user);
-
+        if (user) {
+            user = JSON.parse(user);
+        }
         return {
             selectedLang: 'En',
             langs: ['Hi'],
@@ -60,19 +62,19 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.clear();
-            clearSession();
-
-            window.location.reload();
+            return this.$auth.logout({
+                makeRequest: false,
+                redirect: {
+                    name: '/login'
+                }
+            });
         }
     }
 };
 </script>
-
 <style lang="scss">
 .ai-center {
     align-items: center;
-
     .seperator {
         width: 2px;
         height: 34px;

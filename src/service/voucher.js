@@ -3,7 +3,7 @@ export default app => {
         fetchVoucher(voucherId) {
             return app.axios({
                 method: 'post',
-                url: 'vouchers/voucher_code',
+                url: 'fetch_voucher',
                 data: {
                     voucher_code: voucherId
                 }
@@ -12,7 +12,7 @@ export default app => {
         redeemVoucher(voucherId) {
             return app.axios({
                 method: 'post',
-                url: 'vouchers/claim_voucher',
+                url: 'redeem_voucher',
                 data: {
                     voucher_code: voucherId
                 }

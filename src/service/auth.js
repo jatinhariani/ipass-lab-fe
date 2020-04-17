@@ -6,6 +6,7 @@ export default {
             method: 'post',
             url: 'send_otp',
             data: {
+                account_type: 'PATHOLOGY_LAB',
                 identifier: phoneNumber,
                 identifierType: 'MOBILE'
             }

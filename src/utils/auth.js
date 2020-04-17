@@ -23,12 +23,13 @@ export default () => {
             url: '/verify_otp',
             method: 'POST',
             redirect: '/',
-            fetchUser: false
+            fetchUser: true
         },
         logoutData: { redirect: '/login' },
         refreshData: { url: 'auth/refresh', method: 'GET', enabled: false },
-        fetchData: { url: '/user/me', method: 'GET', enabled: false },
+        fetchData: { url: '/accounts/current', method: 'GET', enabled: true },
         parseUserData: function(data) {
+            console.log(data);
             return data;
         }
     });

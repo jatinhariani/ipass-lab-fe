@@ -27,7 +27,7 @@
 
                         <b-dropdown-item disabled>
                             <b>Logged in as {{ user.name }}</b>
-                            <p>{{ user.email }}</p>
+                            <p>{{ $auth.user().name }}</p>
                         </b-dropdown-item>
                         <hr class="dropdown-divider" />
                         <b-dropdown-item

@@ -29,7 +29,6 @@ export default () => {
         refreshData: { url: 'auth/refresh', method: 'GET', enabled: false },
         fetchData: { url: '/accounts/current', method: 'GET', enabled: true },
         parseUserData: function(data) {
-            console.log(data);
             return data;
         }
     });
